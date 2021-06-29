@@ -3,12 +3,12 @@ const User = require('../models/User');
 
 const router = express.Router();
 
-interface UserInterface {
-    Id: number,
-    Username: string,
-    Password: string,
-    Purchased: Array<string>
-}
+// interface UserInterface {
+//     Id: number,
+//     Username: string,
+//     Password: string,
+//     Purchased: Array<string>
+// }
 
 // router.post('/signin', (req: Request, res: Response, next: NextFunction) => {
 //     User.findOne({ email: req.body.email })
