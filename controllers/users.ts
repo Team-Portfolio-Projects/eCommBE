@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction} from 'express';
-const User = require('../models/User');
+
 
 const router = express.Router();
 
