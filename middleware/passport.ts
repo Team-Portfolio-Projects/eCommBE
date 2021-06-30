@@ -1,46 +1,46 @@
-import User from '../models/User'
-const passport = require('passport')
-const GoogleStrategy = require('passport-google-oauth20').Strategy
-// const User = require('../models/User')
-interface UserFace{
-  id: string,
-  displayName: string,
-  googleId:  string,
-	purchased: string[]
-}
+// import User from '../models/user'
+// const passport = require('passport')
+// const GoogleStrategy = require('passport-google-oauth20').Strategy
+// // const User = require('../models/User')
+// interface UserFace{
+//   id: string,
+//   displayName: string,
+//   googleId:  string,
+// 	purchased: string[]
+// }
 
-module.exports = function(passport: any) { 
-    passport.use(new GoogleStrategy({
-        clientID: "724343472595-5p9le63sa99h2hckb905dagmr4379p6t.apps.googleusercontent.com",
-        clientSecret: 'pb98L5SBN8CkbbZDAqiMPhfC',
-        callbackURL: '/auth/google/callback'
-    },
-    async (accessToken: any, refreshToken: any, profile: any, done: any) => {
-      const newUser = {
-        displayName: profile.displayName,
-        googleId: profile.id,
-      }  
-      try {
-        let user = await User.findOne({googleId: profile.id})
+// module.exports = function(passport: any) { 
+//     passport.use(new GoogleStrategy({
+//         clientID: ,
+//         clientSecret: ,
+//         callbackURL: '/auth/google/callback'
+//     },
+//     async (accessToken: any, refreshToken: any, profile: any, done: any) => {
+//       const newUser = {
+//         displayName: profile.displayName,
+//         googleId: profile.id,
+//       }  
+//       try {
+//         let user = await User.findOne({googleId: profile.id})
 
-        if(user){
+//         if(user){
   
-          done(null,user)
+//           done(null,user)
 
-        }else {
-          user = await User.create(newUser)
-          done(null,user)
-        }
-      } catch (err){
-        console.log(err)
-      }
+//         }else {
+//           user = await User.create(newUser)
+//           done(null,user)
+//         }
+//       } catch (err){
+//         console.log(err)
+//       }
       
 
-    }))
-    passport.serializeUser((user: UserFace, done:any)=>
-      done(null, user.id)
-    )
-    passport.deserializeUser((id:string,done:any)=>
-      User.findById(id,(err:any,user:UserFace)=>done(err,user))
-    )
-}
+//     }))
+//     passport.serializeUser((user: UserFace, done:any)=>
+//       done(null, user.id)
+//     )
+//     passport.deserializeUser((id:string,done:any)=>
+//       User.findById(id,(err:any,user:UserFace)=>done(err,user))
+//     )
+// }

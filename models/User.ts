@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema({
     },
 	purchased: [ String ],
 });
-
+//POPULATE MONGOOSE 
 const User = mongoose.model('User', UserSchema);
 
 export default User

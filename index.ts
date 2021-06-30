@@ -1,12 +1,12 @@
 import express, { Application} from 'express';
 const cors = require('cors')
-
+import User from './models/user'
 const passport = require('passport')
 const session = require('express-session')
-
+require("dotenv").config()
 const app: Application = express();
 
-require('./middleware/passport')(passport)
+// require('./middleware/passport')(passport)
 
 app.use(session({
     secret: 'dog',
@@ -20,13 +20,25 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors())
 
-app.use(passport.initialize())
-app.use(passport.session())
 const requestLogger = require('./middleware/request_logger');
-// Controllers
-const userController = require('./controllers/users');
-app.use('/api/user', userController);
+app.use(requestLogger);
 
+
+
+
+app.use(async (req:any, res, next) => {
+    const user = await User.findOne({id: req.session.userID})
+    req.user = user
+    next()
+})
+
+
+
+// Controllers
+// const userController = require('./controllers/users');
+// app.use('/api/user', userController);
+const cartController = require('./controllers/carts')
+app.use('/api/cart', cartController)
 const authController = require('./controllers/auth');
 app.use('/auth', authController);
 

@@ -3,13 +3,13 @@ import mongoose from 'mongoose'
 require('dotenv').config();
 
 //google how to use typescript with dotenv
-const mongoURI: string = 'mongodb+srv://ecom:UKXjGVVkDbCZALln@cluster0.7ujlv.mongodb.net/ecomDB?retryWrites=true&w=majority'
-	// process.env.NODE_ENV === 'production'
-	// 	? process.env.DB_URL
-	// 	: 'mongodb://localhost/userlogin';
-
+const mongoURI: any =
+	process.env.NODE_ENV === 'production'
+		? process.env.DB_URL
+		: 'mongodb://localhost/userlogin';
+ 'mongodb+srv://ecom:UKXjGVVkDbCZALln@cluster0.7ujlv.mongodb.net/ecomDB?retryWrites=true&w=majority'
 mongoose
-	.connect(mongoURI, {
+	.connect(mongoURI , {
 		useNewUrlParser: true,
 		useCreateIndex: true,
 		useUnifiedTopology: true,
