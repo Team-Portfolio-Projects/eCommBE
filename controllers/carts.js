@@ -2,17 +2,17 @@ const express = require('express');
 const Cart = require('../models/Cart');
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
-	return Cart.findOne({ owner: req.session.userId })
-		.populate('Product')
-		.exec((err, cart) => res.json(cart));
-	//.then((cart) => res.json(cart));
+router.get('/:id', (req, res, next) => {
+	Cart.findOne({ owner: req.params.id })
+		.populate('products')
+		.exec()
+		.then((cart) => res.json(cart));
 });
 
 router.post('/', async (req, res, next) => {
 	try {
-		const found = await Cart.findOne({ owner: req.session.userId });
-
+		const found = await Cart.findOne({ owner: req.body.owner });
+		console.log(found);
 		if (!found) {
 			const newCart = await Cart.create(req.body);
 			return res.json(newCart);
@@ -25,8 +25,10 @@ router.post('/', async (req, res, next) => {
 	} catch {}
 });
 
-router.delete('/', (req, res, next) => {
-	Cart.findOneAndDelete({ owner: req.session.userid });
+router.delete('/:id', (req, res, next) => {
+	Cart.findOneAndDelete({ owner: req.params.id })
+		.then((res) => (res.paid = true))
+		.then((res) => res.json(res));
 });
 
 module.exports = router;

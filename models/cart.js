@@ -6,8 +6,8 @@ const CartSchema = new mongoose.Schema({
 		ref: 'User',
 	},
 	products: {
-		type: [String],
-		// ref:'Product'
+		type: [mongoose.Schema.Types.ObjectId],
+		ref: 'Product',
 	},
 	paid: Boolean,
 });
