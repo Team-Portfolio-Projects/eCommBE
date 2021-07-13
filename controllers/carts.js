@@ -1,5 +1,5 @@
 const express = require('express');
-const { isConstructorDeclaration } = require('typescript');
+
 const Cart = require('../models/Cart');
 const router = express.Router();
 const Product = require('../models/product');
@@ -34,7 +34,8 @@ router.patch('/:id', async (req, res, next) => {
 			.populate('products')
 			.exec();
 		if (!cart) throw new Error('No user logged in!');
-		cart.products.splice(req.body.index, 1);
+		const index = cart.products.map((prod) => prod.id).indexOf(req.body.index);
+		cart.products.splice(index, 1);
 		cart.save();
 		res.json(cart);
 	} catch (error) {

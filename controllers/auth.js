@@ -35,21 +35,9 @@ router.post('/google/', async (req, res, next) => {
 	res.status(201);
 	// res.json(user)
 });
-
-// router.get('/google', passport.authenticate('google', { scope: ['profile'] }))
-
-// router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/' }),
-// (req, res:any) => {
-//     res.json(res.socket.parser.incoming.user.id)
-// })
-
-// //Log out User
-// router.get('/user',(req:any,res,next)=>{
-//     User.find()
-// 		.then((users:any) => res.json(users))
-// 		.catch(next)
-//         // console.log(req.socket)
-// })
+router.get('/client', (req, res, next) => {
+	res.json(process.env.GOOGLE_CLIENT_ID);
+});
 
 router.get('/logout', (req, res, next) => {
 	req.logout();
