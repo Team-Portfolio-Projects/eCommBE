@@ -15,19 +15,9 @@ router.post('/', async (req, res, next) => {
 		const found = await Cart.findOne({ owner: req.body.owner })
 			.populate('products')
 			.exec();
-
-		let index = found?.products.findIndex(
-			(product) => product.id === req.body.products
-		);
 		if (!found) {
 			const newCart = await Cart.create(req.body);
 			return res.json(newCart);
-		} else if (index >= 0) {
-			console.log(found.products[index]);
-			found[index].quanity += 1;
-
-			found.save();
-			return res.json(found);
 		} else {
 			found.products.push(req.body.products);
 			found.paid = req.body.paid;
