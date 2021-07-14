@@ -47,10 +47,10 @@ router.put('/:id', async (req, res, next) => {
 		let cart = await Cart.findOne({ _id: req.params.id });
 		if (!cart) throw new Error('Cart not found');
 		cart.products.push(req.body.prod_id);
-		cart.save();
 		let newCart = await Cart.findOne({ _id: req.params.id })
 			.populate('products')
 			.exec();
+		cart.save();
 		res.json(newCart);
 	} catch (error) {
 		res.json(error);
