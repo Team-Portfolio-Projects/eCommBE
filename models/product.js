@@ -7,7 +7,6 @@ const ProductSchema = new mongoose.Schema({
 	image: String,
 	price: String,
 	description: String,
-	quanity: { default: 0, type: Number },
 	cart: mongoose.Schema.Types.ObjectId,
 });
 

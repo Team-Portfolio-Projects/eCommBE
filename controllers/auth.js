@@ -4,9 +4,6 @@ const User = require('../models/User');
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
-// const {ensureAuth, ensureGuest} = require('../middleware/session')
-// const cors = require('cors')
-// const passport = require('passport')
 const router = express.Router();
 // var corsOptions = {
 //   origin: 'http://localhost:3001',
@@ -24,8 +21,10 @@ router.post('/google/', async (req, res, next) => {
 	const user = await User.updateOne(
 		{ googleId: sub },
 		{
-			googleID: sub,
+			googleId: sub,
 			displayName: name,
+			googlePicture: picture,
+			email: email,
 		},
 		{ upsert: true }
 	);
@@ -43,4 +42,5 @@ router.get('/logout', (req, res, next) => {
 	req.logout();
 	res.redirect('/');
 });
+
 module.exports = router;

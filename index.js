@@ -40,6 +40,8 @@ const authController = require('./controllers/auth');
 app.use('/auth', authController);
 const productController = require('./controllers/products');
 app.use('/api/products', productController);
+// const paymentController = require('./controllers/stripe');
+// app.use('/api/stripe', paymentController);
 
 const port = process.env.PORT || 3000;
 
