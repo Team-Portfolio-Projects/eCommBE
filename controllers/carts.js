@@ -65,5 +65,28 @@ router.delete('/:id', async (req, res, next) => {
 		res.json(error);
 	}
 });
+router.post('/checkout/:id', async (req, res, next) => {
+	try {
+		cart = await Cart.findOne({ owner: req.params.id })
+			.populate('products')
+			.exec();
+		length = 0;
+		if (cart.purchased.length) {
+		}
+		let purchased = {
+			products: [],
+			date: cart.updatedAt,
+		};
+		console.log(purchased);
+		cart.products.forEach((prod) => {
+			purchased.products.push(prod);
+		});
 
+		cart.purchased.push(purchased);
+
+		console.log(cart);
+		cart.save();
+		res.json(cart);
+	} catch (error) {}
+});
 module.exports = router;

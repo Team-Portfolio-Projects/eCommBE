@@ -1,22 +1,27 @@
 const mongoose = require('../db/connection');
 
-const CartSchema = new mongoose.Schema({
-	owner: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User',
-	},
-	products: {
-		type: [mongoose.Schema.Types.ObjectId],
-		ref: 'Product',
-	},
-	purchased: [
-		{
-			products: [mongoose.Schema.Types.ObjectId],
-			time: String,
+const CartSchema = new mongoose.Schema(
+	{
+		owner: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
 		},
-	],
-	paid: Boolean,
-});
+		products: {
+			type: [mongoose.Schema.Types.ObjectId],
+			ref: 'Product',
+		},
+		purchased: [
+			{
+				products: {
+					type: [mongoose.Schema.Types.ObjectId],
+					ref: 'Product',
+				},
+				date: Date,
+			},
+		],
+	},
+	{ timestamps: true }
+);
 
 const Cart = mongoose.model('Cart', CartSchema);
 
