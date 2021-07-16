@@ -76,6 +76,7 @@ router.post('/checkout/:id', async (req, res, next) => {
 	try {
 		cart = await Cart.findOne({ owner: req.params.id })
 			.populate('product')
+			.populate('purchased.product')
 			.exec();
 		length = 0;
 		if (cart.purchased.length) {
@@ -92,7 +93,7 @@ router.post('/checkout/:id', async (req, res, next) => {
 		cart.purchased.push(purchased);
 
 		cart.save();
-		res.json(cart);
 	} catch (error) {}
 });
 module.exports = router;
+``;
