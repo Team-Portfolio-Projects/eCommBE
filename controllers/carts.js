@@ -11,12 +11,7 @@ router.get('/:id', (req, res, next) => {
 		.exec()
 		.then((cart) => res.json(cart));
 });
-router.get('/', (req, res, next) => {
-	Cart.findOne({ owner: req.body.id })
-		.populate('purchased.product')
-		.exec()
-		.then((cart) => res.json(cart));
-});
+
 router.post('/', async (req, res, next) => {
 	try {
 		const found = await Cart.findOne({ owner: req.body.owner })
@@ -78,22 +73,17 @@ router.post('/checkout/:id', async (req, res, next) => {
 			.populate('product')
 			.populate('purchased.product')
 			.exec();
-		length = 0;
-		if (cart.purchased.length) {
-		}
 		let purchased = {
 			product: [],
 			date: cart.updatedAt,
 		};
-		console.log(purchased);
 		cart.products.forEach((prod) => {
 			purchased.product.push(prod);
 		});
 
 		cart.purchased.push(purchased);
-
+		cart.products = [];
 		cart.save();
 	} catch (error) {}
 });
 module.exports = router;
-``;
