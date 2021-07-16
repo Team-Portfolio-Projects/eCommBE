@@ -1,4 +1,5 @@
 const express = require('express');
+const { populate } = require('../models/Cart');
 
 const Cart = require('../models/Cart');
 const router = express.Router();
@@ -6,10 +7,16 @@ const Product = require('../models/product');
 router.get('/:id', (req, res, next) => {
 	Cart.findOne({ owner: req.params.id })
 		.populate('products')
+		.populate('purchased.product')
 		.exec()
 		.then((cart) => res.json(cart));
 });
-
+router.get('/', (req, res, next) => {
+	Cart.findOne({ owner: req.body.id })
+		.populate('purchased.product')
+		.exec()
+		.then((cart) => res.json(cart));
+});
 router.post('/', async (req, res, next) => {
 	try {
 		const found = await Cart.findOne({ owner: req.body.owner })
@@ -68,23 +75,22 @@ router.delete('/:id', async (req, res, next) => {
 router.post('/checkout/:id', async (req, res, next) => {
 	try {
 		cart = await Cart.findOne({ owner: req.params.id })
-			.populate('products')
+			.populate('product')
 			.exec();
 		length = 0;
 		if (cart.purchased.length) {
 		}
 		let purchased = {
-			products: [],
+			product: [],
 			date: cart.updatedAt,
 		};
 		console.log(purchased);
 		cart.products.forEach((prod) => {
-			purchased.products.push(prod);
+			purchased.product.push(prod);
 		});
 
 		cart.purchased.push(purchased);
 
-		console.log(cart);
 		cart.save();
 		res.json(cart);
 	} catch (error) {}
